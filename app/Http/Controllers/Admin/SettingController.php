@@ -114,12 +114,18 @@ class SettingController extends Controller
             'org_periode' => 'required|string|max:20',
             'org_tagline' => 'nullable|string|max:255',
             'footer_text' => 'nullable|string|max:500',
+            'org_logo'    => 'nullable|image|max:5120',
         ]);
 
         SiteSetting::set('org_name', $request->org_name);
         SiteSetting::set('org_periode', $request->org_periode);
         SiteSetting::set('org_tagline', $request->org_tagline ?? '');
         SiteSetting::set('footer_text', $request->footer_text ?? '');
+
+        if ($request->hasFile('org_logo')) {
+            $path = $request->file('org_logo')->store('settings', 'public');
+            SiteSetting::set('org_logo', $path);
+        }
 
         return back()->with('success', 'Pengaturan umum berhasil diperbarui!');
     }

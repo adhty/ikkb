@@ -1,60 +1,35 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $settings['org_name'] ?? 'Parlemen CAKRA ABHIPRAYA' }} - {{ $settings['org_periode'] ?? '2025' }}</title>
-    <meta name="description" content="Website resmi {{ $settings['org_name'] ?? 'Parlemen CAKRA ABHIPRAYA' }} - Lembaga Representatif Mahasiswa FISHUM UIN Sunan Kalijaga">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+@extends('layouts.app')
+
+@section('title', ($settings['org_name'] ?? 'Parlemen CAKRA ABHIPRAYA') . ' - ' . ($settings['org_periode'] ?? '2025'))
+
+@section('extra-css')
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
     <style>
-        :root {
-            --blue-deep:   #0a1a4a;
-            --blue-main:   #1a3a8f;
-            --blue-mid:    #2355c9;
-            --blue-light:  #4a7de8;
-            --blue-pale:   #dce9ff;
-            --gold:        #d4a843;
-            --gold-light:  #f0c96a;
-            --white:       #ffffff;
-            --gray-50:     #f8fafc;
-            --gray-100:    #f1f5f9;
-            --gray-200:    #e2e8f0;
-            --gray-600:    #475569;
-            --gray-800:    #1e293b;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        body { font-family: 'Inter', sans-serif; color: var(--gray-800); background: var(--white); overflow-x: hidden; }
-
-        /* ── NAVBAR ── */
-        .navbar { position: fixed; top: 0; width: 100%; z-index: 1000; background: rgba(10, 26, 74, 0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 0.9rem 0; transition: all 0.3s ease; }
-        .navbar.scrolled { padding: 0.6rem 0; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
-        .nav-container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; }
-        .nav-logo { color: white; font-size: 1.15rem; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.5rem; }
-        .nav-logo span.italic-logo { font-family: 'Dancing Script', cursive; font-size: 1.3rem; color: var(--gold-light); }
-        .nav-menu { display: flex; align-items: center; gap: 0.2rem; list-style: none; }
-        .nav-menu a { color: rgba(255,255,255,0.85); text-decoration: none; font-size: 0.88rem; font-weight: 500; padding: 0.5rem 0.9rem; border-radius: 6px; transition: all 0.2s; }
-        .nav-menu a:hover { color: white; background: rgba(255,255,255,0.1); }
-        .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
-        .nav-hamburger span { display: block; width: 25px; height: 2px; background: white; border-radius: 2px; transition: all 0.3s; }
-
         /* ── HERO ── */
-        .hero { min-height: 100vh; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; background: linear-gradient(135deg, var(--blue-deep) 0%, var(--blue-main) 50%, var(--blue-mid) 100%); }
-        .hero-bg-image { position: absolute; inset: 0; background-size: cover; background-position: center; background-repeat: no-repeat; opacity: 0.25; }
-        .hero-overlay { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(10,26,74,0.92) 0%, rgba(26,58,143,0.85) 60%, rgba(35,85,201,0.8) 100%); }
-        .hero-particles { position: absolute; inset: 0; overflow: hidden; }
+        .hero { min-height: 100vh; position: relative; overflow: hidden; margin-top: 0; padding-top: 0; }
+        .hero-swiper { width: 100%; height: 100vh; margin-top: 0; }
+        .hero-slide { position: relative; display: flex; align-items: center; justify-content: center; }
+        .hero-bg-image { position: absolute; inset: 0; background-size: cover; background-position: center; background-repeat: no-repeat; }
+        .hero-overlay { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(10,26,74,0.92) 0%, rgba(26,58,143,0.8) 60%, rgba(35,85,201,0.7) 100%); }
+        .hero-particles { position: absolute; inset: 0; overflow: hidden; z-index: 1; }
+        
+        .swiper-button-next, .swiper-button-prev { color: white !important; opacity: 0.5; transition: opacity 0.3s; }
+        .swiper-button-next:hover, .swiper-button-prev:hover { opacity: 1; }
+        .swiper-pagination-bullet { background: white !important; opacity: 0.5; }
+        .swiper-pagination-bullet-active { opacity: 1; }
+
         .particle { position: absolute; width: 3px; height: 3px; background: rgba(255,255,255,0.4); border-radius: 50%; animation: float-particle linear infinite; }
         @keyframes float-particle { 0% { transform: translateY(100vh) rotate(0deg); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; } }
-        .hero-content { position: relative; z-index: 2; text-align: center; padding: 2rem; max-width: 900px; }
+        
+        .hero-content { position: absolute; top: 50%; left: 0; right: 0; transform: translateY(-50%); z-index: 999; text-align: center; padding: 2rem; pointer-events: none; }
+        .hero-content * { pointer-events: auto; }
         .hero-tag { display: inline-block; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: var(--gold-light); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; padding: 0.4rem 1.2rem; border-radius: 100px; margin-bottom: 1.5rem; backdrop-filter: blur(8px); }
         .hero-title-italic { font-family: 'Dancing Script', cursive; color: rgba(255,255,255,0.9); font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 400; line-height: 1.1; margin-bottom: 0.2rem; text-shadow: 0 2px 20px rgba(0,0,0,0.3); }
         .hero-title-main { font-family: 'Inter', sans-serif; color: var(--white); font-size: clamp(2.5rem, 7vw, 5.5rem); font-weight: 900; letter-spacing: -0.02em; line-height: 0.95; text-shadow: 0 4px 30px rgba(0,0,0,0.4); margin-bottom: 1.5rem; }
         .hero-divider { width: 80px; height: 3px; background: linear-gradient(90deg, transparent, var(--gold), transparent); margin: 1rem auto; }
-        .hero-tagline { color: rgba(255,255,255,0.75); font-size: clamp(0.9rem, 2vw, 1.1rem); font-weight: 400; max-width: 500px; margin: 0 auto 2.5rem; line-height: 1.7; }
+        .hero-tagline { color: rgba(255,255,255,0.75); font-size: clamp(0.9rem, 2vw, 1.1rem); font-weight: 400; max-width: 600px; margin: 0 auto 2.5rem; line-height: 1.7; }
         .hero-scroll { display: inline-flex; align-items: center; gap: 0.5rem; color: rgba(255,255,255,0.6); font-size: 0.85rem; text-decoration: none; transition: color 0.2s; animation: bounce-arrow 2s ease-in-out infinite; }
         .hero-scroll:hover { color: white; }
         @keyframes bounce-arrow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
@@ -133,21 +108,28 @@
         .komisi-member-card { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); border-radius: 16px; padding: 1.5rem 1rem; text-align: center; transition: all 0.3s; backdrop-filter: blur(8px); }
         .komisi-member-photo { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid rgba(255,255,255,0.3); margin: 0 auto 0.75rem; display: block; }
         .komisi-member-name { font-size: 0.82rem; font-weight: 600; color: white; }
+        .komisi-member-name { font-size: 0.82rem; font-weight: 600; color: white; }
         .komisi-member-pos { font-size: 0.72rem; color: rgba(255,255,255,0.6); }
 
-        /* ── FOOTER ── */
-        .footer { background: var(--blue-deep); color: rgba(255,255,255,0.6); text-align: center; padding: 1.5rem; font-size: 0.82rem; border-top: 1px solid rgba(255,255,255,0.1); }
-        .footer a { color: var(--gold-light); text-decoration: none; }
+        /* ── ACARA ── */
+        .acara-section { background: var(--gray-50); padding: 5rem 0; }
+        .acara-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem; margin-top: 3rem; }
+        .acara-card { background: white; border-radius: 20px; display: flex; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: all 0.3s; position: relative; border-left: 5px solid var(--blue-mid); }
+        .acara-card:hover { transform: translateX(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .acara-date-box { background: var(--blue-deep); color: white; padding: 1rem; display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 80px; text-align: center; }
+        .acara-date-box .day { font-size: 1.5rem; font-weight: 800; line-height: 1; }
+        .acara-date-box .month { font-size: 0.7rem; text-transform: uppercase; font-weight: 600; opacity: 0.8; }
+        .acara-img { width: 120px; height: 100%; object-fit: cover; flex-shrink: 0; }
+        .acara-info { padding: 1.2rem; flex-grow: 1; }
+        .acara-info h4 { font-size: 1.05rem; font-weight: 700; color: var(--blue-deep); margin-bottom: 0.4rem; line-height: 1.3; }
+        .acara-info p { font-size: 0.85rem; color: var(--gray-600); line-height: 1.5; margin-bottom: 0.8rem; }
+        .acara-link { font-size: 0.8rem; font-weight: 700; color: var(--blue-mid); text-decoration: none; display: flex; align-items: center; gap: 0.4rem; }
 
         /* ── ANIMATIONS ── */
         .fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
         .fade-up.visible { opacity: 1; transform: translateY(0); }
 
-        /* ── RESPONSIVE ── */
         @media (max-width: 768px) {
-            .nav-menu { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--blue-deep); flex-direction: column; padding: 1rem; border-top: 1px solid rgba(255,255,255,0.1); }
-            .nav-menu.open { display: flex; }
-            .nav-hamburger { display: flex; }
             .sambutan-layout { grid-template-columns: 1fr; text-align: center; }
             .sambutan-text h2 { border-left: none; padding-left: 0; }
             .vm-cards { grid-template-columns: 1fr; }
@@ -155,40 +137,46 @@
             .komisi-members-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
         }
     </style>
-</head>
-<body>
+@endsection
 
-<nav class="navbar" id="navbar">
-    <div class="nav-container">
-        <a href="#beranda" class="nav-logo">
-            <span class="italic-logo">{{ $settings['navbar_logo'] ?? 'Parlemen' }}</span>
-        </a>
-        <ul class="nav-menu" id="nav-menu">
-            <li><a href="#beranda">Beranda</a></li>
-            <li><a href="#sambutan">Sambutan</a></li>
-            <li><a href="#visi-misi">Visi &amp; Misi</a></li>
-            <li><a href="#pengurus">Pengurus</a></li>
-            <li><a href="#berita">Berita</a></li>
-        </ul>
-        <div class="nav-hamburger" id="hamburger" onclick="toggleMenu()">
-            <span></span><span></span><span></span>
-        </div>
-    </div>
-</nav>
-
+@section('content')
 <section class="hero" id="beranda">
-    @if(!empty($settings['hero_image']))
-        <div class="hero-bg-image" style="background-image: url('{{ asset('storage/' . $settings['hero_image']) }}')"></div>
-        <div class="hero-overlay"></div>
-    @endif
-    <div class="hero-particles" id="particles"></div>
+    <div class="swiper hero-swiper">
+        <div class="swiper-wrapper">
+            @forelse($galleries as $gallery)
+                <div class="swiper-slide hero-slide">
+                    <div class="hero-bg-image" style="background-image: url('{{ asset('storage/' . $gallery->image) }}')"></div>
+                    <div class="hero-overlay"></div>
+                </div>
+            @empty
+                <div class="swiper-slide hero-slide">
+                    @if(!empty($settings['hero_image']))
+                        <div class="hero-bg-image" style="background-image: url('{{ asset('storage/' . $settings['hero_image']) }}')"></div>
+                    @else
+                        <div class="hero-bg-image" style="background: linear-gradient(135deg, var(--blue-deep) 0%, var(--blue-main) 100%);"></div>
+                    @endif
+                    <div class="hero-overlay"></div>
+                </div>
+            @endforelse
+        </div>
+        
+        @if($galleries->count() > 1)
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        @endif
+
+        <div class="hero-particles" id="particles"></div>
+    </div>
+
+    <!-- Teks Statis di Depan Slider -->
     <div class="hero-content fade-up visible">
         <div class="hero-tag">
             <i class="fas fa-star"></i>
-            {{ $settings['org_periode'] ?? '2025' }} &mdash; Ikatan Kampung Kemandoran Bersatu
+            {{ $settings['org_periode'] ?? '2025' }}
         </div>
-        <div class="hero-title-italic">{{ $settings['hero_title'] ?? 'Parlemen' }}</div>
-        <div class="hero-title-main">{{ $settings['hero_subtitle'] ?? 'CAKRA ABHIPRAYA' }}</div>
+        <div class="hero-title-italic">{{ $settings['hero_title'] ?? 'Foto IKKB' }}</div>
+        <div class="hero-title-main">{{ $settings['hero_subtitle'] ?? 'IKKB' }}</div>
         <div class="hero-divider"></div>
         @if(!empty($settings['hero_tagline']))
             <p class="hero-tagline">{{ $settings['hero_tagline'] }}</p>
@@ -318,6 +306,35 @@
     </div>
 </section>
 
+<section class="acara-section" id="acara">
+    <div class="container">
+        <div class="fade-up">
+            <span class="section-label">Agenda Organisasi</span>
+            <div class="section-title">Acara & Kegiatan</div>
+        </div>
+        <div class="acara-grid">
+            @forelse($acara as $item)
+                <div class="acara-card fade-up">
+                    <div class="acara-date-box">
+                        <span class="day">{{ $item->created_at->format('d') }}</span>
+                        <span class="month">{{ $item->created_at->format('M') }}</span>
+                    </div>
+                    @if($item->image)
+                        <img src="{{ asset('storage/'.$item->image) }}" alt="{{ $item->title }}" class="acara-img">
+                    @endif
+                    <div class="acara-info">
+                        <h4>{{ $item->title }}</h4>
+                        <p>{{ Str::limit($item->content, 80) }}</p>
+                        <a href="{{ route('article.show', $item->id) }}" class="acara-link">Detail Acara <i class="fas fa-chevron-right"></i></a>
+                    </div>
+                </div>
+            @empty
+                <p style="text-align:center; color:var(--gray-500); grid-column:1/-1;">Belum ada agenda kegiatan terdekat.</p>
+            @endforelse
+        </div>
+    </div>
+</section>
+
 <section class="berita-section" id="berita">
     <div class="container">
         <div class="fade-up">
@@ -337,7 +354,7 @@
                     <div class="berita-body">
                         <h4>{{ $item->title }}</h4>
                         <p>{{ Str::limit($item->content, 120) }}</p>
-                        <a href="{{ $item->link ?? '#' }}" class="btn-more">Baca Selengkapnya <i class="fas fa-arrow-right"></i></a>
+                        <a href="{{ route('article.show', $item->id) }}" class="btn-more">Baca Selengkapnya <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
             @empty
@@ -380,33 +397,48 @@
         @endforelse
     </div>
 </section>
+@endsection
 
-<footer class="footer">
-    <p>{{ $settings['footer_text'] ?? '© 2025 Parlemen CAKRA ABHIPRAYA. All rights reserved.' }}</p>
-    <p style="margin-top:0.3rem; font-size:0.75rem;">Website dikelola oleh Tim Admin &mdash; <a href="{{ route('admin.login') }}">Admin Panel</a></p>
-</footer>
+@section('extra-js')
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
 <script>
-window.addEventListener('scroll', () => { document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50); });
-function toggleMenu() { document.getElementById('nav-menu').classList.toggle('open'); }
-document.querySelectorAll('.nav-menu a').forEach(link => { link.addEventListener('click', () => { document.getElementById('nav-menu').classList.remove('open'); }); });
-(function createParticles() {
-    const container = document.getElementById('particles');
-    if(!container) return;
-    for (let i = 0; i < 30; i++) {
-        const p = document.createElement('div');
-        p.className = 'particle';
-        p.style.left = Math.random() * 100 + 'vw';
-        p.style.width = p.style.height = Math.random() * 4 + 2 + 'px';
-        p.style.animationDuration = Math.random() * 15 + 10 + 's';
-        p.style.animationDelay = Math.random() * 10 + 's';
-        p.style.opacity = Math.random() * 0.5 + 0.1;
-        container.appendChild(p);
-    }
-})();
-const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
-const observer = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } }); }, observerOptions);
-document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+    const swiper = new Swiper('.hero-swiper', {
+        loop: true,
+        autoplay: {
+            delay: 5000,
+            disableOnInteraction: false,
+        },
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        effect: 'slide',
+        speed: 800,
+    });
+
+    (function createParticles() {
+        const container = document.getElementById('particles');
+        if(!container) return;
+        for (let i = 0; i < 30; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.width = p.style.height = Math.random() * 4 + 2 + 'px';
+            p.style.animationDuration = Math.random() * 15 + 10 + 's';
+            p.style.animationDelay = Math.random() * 10 + 's';
+            p.style.opacity = Math.random() * 0.5 + 0.1;
+            container.appendChild(p);
+        }
+    })();
+
+    const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+    const observer = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } }); }, observerOptions);
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 </script>
-</body>
-</html>
+@endsection

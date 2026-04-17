@@ -237,8 +237,14 @@
 <!-- Sidebar -->
 <aside class="sidebar" id="sidebar">
     <div class="sidebar-brand">
-        <div class="script">Parlemen</div>
-        <h2>IKKB</h2>
+        @if(!empty($settings['org_logo']))
+            <div style="margin-bottom: 0.8rem;">
+                <img src="{{ asset('storage/' . $settings['org_logo']) }}" alt="Logo" style="max-height: 50px; width: auto; display: block;">
+            </div>
+        @else
+            <div class="script">Parlemen</div>
+            <h2>IKKB</h2>
+        @endif
         <div class="badge"><i class="fas fa-shield-halved"></i> ADMIN PANEL</div>
     </div>
 
@@ -263,6 +269,9 @@
         </a>
         <a href="{{ route('admin.settings.pengurus-photo') }}" class="sidebar-link {{ request()->routeIs('admin.settings.pengurus-photo*') ? 'active' : '' }}">
             <i class="fas fa-camera"></i> Foto Pengurus
+        </a>
+        <a href="{{ route('admin.galleries.index') }}" class="sidebar-link {{ request()->routeIs('admin.galleries*') ? 'active' : '' }}">
+            <i class="fas fa-images"></i> Galeri Slider
         </a>
         <a href="{{ route('admin.settings.general') }}" class="sidebar-link {{ request()->routeIs('admin.settings.general*') ? 'active' : '' }}">
             <i class="fas fa-sliders"></i> Pengaturan Umum

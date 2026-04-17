@@ -11,8 +11,9 @@ class ArticleController extends Controller
     public function index()
     {
         $berita = Article::where('category', 'berita')->orderBy('sort_order')->get();
+        $acara  = Article::where('category', 'acara')->orderBy('sort_order')->get();
         $angket = Article::where('category', 'angket')->orderBy('sort_order')->get();
-        return view('admin.articles.index', compact('berita', 'angket'));
+        return view('admin.articles.index', compact('berita', 'acara', 'angket'));
     }
 
     public function create()
@@ -27,7 +28,7 @@ class ArticleController extends Controller
             'content'    => 'nullable|string',
             'image'      => 'nullable|image|max:5120',
             'link'       => 'nullable|url|max:500',
-            'category'   => 'required|in:berita,angket',
+            'category'   => 'required|in:berita,angket,acara',
             'sort_order' => 'nullable|integer',
         ]);
 
@@ -54,7 +55,7 @@ class ArticleController extends Controller
             'content'    => 'nullable|string',
             'image'      => 'nullable|image|max:5120',
             'link'       => 'nullable|url|max:500',
-            'category'   => 'required|in:berita,angket',
+            'category'   => 'required|in:berita,angket,acara',
             'sort_order' => 'nullable|integer',
         ]);
 

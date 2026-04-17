@@ -7,8 +7,20 @@
 @section('content')
 <div class="card">
     <div class="card-title"><i class="fas fa-sliders"></i> Pengaturan Umum</div>
-    <form method="POST" action="{{ route('admin.settings.general.update') }}">
+    <form method="POST" action="{{ route('admin.settings.general.update') }}" enctype="multipart/form-data">
         @csrf
+        <div class="form-group" style="margin-bottom:1.5rem">
+            <label>Logo Organisasi</label>
+            @if(!empty($settings['org_logo']))
+                <div class="photo-preview-wrap" style="margin-bottom: 0.8rem;">
+                    <img src="{{ asset('storage/' . $settings['org_logo']) }}" alt="Logo Current" style="max-height: 80px; width: auto; object-fit: contain;">
+                    <p class="form-hint" style="margin-top: 0.2rem;">Logo saat ini</p>
+                </div>
+            @endif
+            <input type="file" name="org_logo" accept="image/*">
+            <p class="form-hint">Disarankan format PNG transparan, ukuran maksimal 5MB.</p>
+        </div>
+
         <div class="form-row cols-2">
             <div class="form-group">
                 <label>Nama Organisasi <span style="color:red">*</span></label>

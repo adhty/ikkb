@@ -22,6 +22,7 @@
                 <label>Kategori Artikel <span style="color:red">*</span></label>
                 <select name="category" required>
                     <option value="berita" {{ (isset($article) && $article->category === 'berita') ? 'selected' : '' }}>Berita</option>
+                    <option value="acara" {{ (isset($article) && $article->category === 'acara') ? 'selected' : '' }}>Acara / Kegiatan</option>
                     <option value="angket" {{ (isset($article) && $article->category === 'angket') ? 'selected' : '' }}>Angket / Link</option>
                 </select>
             </div>

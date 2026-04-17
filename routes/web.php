@@ -7,9 +7,11 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\MemberController;
 use App\Http\Controllers\Admin\CommissionController;
+use App\Http\Controllers\Admin\GalleryController;
 
 // ─── Landing Page ─────────────────────────────────────────────
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/berita/{id}', [HomeController::class, 'showArticle'])->name('article.show');
 
 // ─── Admin Auth ───────────────────────────────────────────────
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -37,6 +39,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('members',    MemberController::class);
         // Commissions
         Route::resource('commissions', CommissionController::class);
+        // Galleries (Hero Slider)
+        Route::resource('galleries', GalleryController::class);
         // Articles (Berita & Angket)
         Route::resource('articles',   \App\Http\Controllers\Admin\ArticleController::class);
     });

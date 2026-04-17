@@ -19,6 +19,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        if (!$this->app->runningInConsole()) {
+            \Illuminate\Support\Facades\View::share('settings', \App\Models\SiteSetting::pluck('value', 'key')->toArray());
+        }
     }
 }
